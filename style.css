@@ -487,12 +487,11 @@ button#connect-btn:active { transform: translateY(1px); }
   border: 1px solid transparent;
   background-color: var(--paper-sunk);
   cursor: pointer;
-  /* Transition background-color, not the `background` shorthand — Firefox
-     re-rasterizes the whole background on shorthand transitions and flickers. */
-  transition: background-color 0.15s, border-color 0.15s;
   min-width: 0;
 }
-.station-item:hover { background-color: #fff; }
+/* No row :hover — a hover-revealed control here churns a compositing layer
+   under the cursor and flickers in Firefox. The pointer cursor + selected
+   styling carry the affordance instead. */
 
 .station-item.selected {
   background-color: #fff;
@@ -550,18 +549,19 @@ button#connect-btn:active { transform: translateY(1px); }
   height: 24px;
   border-radius: 50%;
   border: 1px solid transparent;
-  background: transparent;
-  color: var(--ink-soft);
+  background-color: transparent;
+  color: var(--ink-faint);
   font-size: 1.15rem;
   line-height: 1;
   cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.12s, color 0.12s, border-color 0.12s, background-color 0.12s;
+  /* Always visible (no opacity animation) — a hover-revealed control here
+     churned a compositing layer under the cursor and flickered in Firefox. */
 }
-.station-item:hover .station-remove,
-.station-remove:focus-visible { opacity: 1; }
-.station-remove:hover { color: var(--err); border-color: var(--err); background: rgba(191, 79, 30, 0.1); }
-@media (hover: none) { .station-remove { opacity: 1; } }
+.station-remove:hover, .station-remove:focus-visible {
+  color: var(--err);
+  border-color: var(--err);
+  background-color: rgba(191, 79, 30, 0.1);
+}
 
 /* ---------- Modals ---------- */
 
