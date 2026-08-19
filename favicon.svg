@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- walnut cabinet tile -->
+  <rect x="2" y="2" width="60" height="60" rx="10" fill="#a9744a"/>
+  <rect x="2" y="2" width="60" height="60" rx="10" fill="url(#grain)"/>
+  <!-- silver perforated grille -->
+  <rect x="10" y="10" width="44" height="44" rx="4" fill="#cac6bd"/>
+  <rect x="10" y="10" width="44" height="44" rx="4" fill="url(#dots)"/>
+  <!-- orange knob -->
+  <circle cx="32" cy="34" r="12" fill="#e4632b" stroke="#bf4f1e" stroke-width="1.5"/>
+  <!-- white indicator -->
+  <rect x="30.5" y="24.5" width="3" height="8" rx="1.5" fill="#fff"/>
+  <defs>
+    <linearGradient id="grain" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#79512f"/>
+      <stop offset="0.5" stop-color="#c0895a" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#79512f"/>
+    </linearGradient>
+    <pattern id="dots" width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="1.6" cy="1.6" r="1.1" fill="#3a342c" fill-opacity="0.34"/>
+    </pattern>
+  </defs>
+</svg>
