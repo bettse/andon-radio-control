@@ -129,6 +129,7 @@ html, body {
 .panel > .controls-row,
 .panel > .stations-header,
 .panel > .station-list,
+.panel > #https-notice,
 .panel > #connect-form,
 .panel > .link-btn {
   position: relative;
@@ -226,8 +227,9 @@ button#connect-btn {
 button#connect-btn:hover { background: var(--orange-bright); }
 button#connect-btn:active { transform: translateY(1px); }
 
+.panel > #https-notice { margin: 4px 18px 0; }
+
 .https-notice {
-  margin-bottom: 16px;
   padding: 12px 14px;
   border-radius: var(--r-ctrl);
   background: rgba(228, 99, 43, 0.1);
