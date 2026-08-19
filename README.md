@@ -5,14 +5,11 @@ a hand-built internet radio. It talks directly to the radio's local-network
 control interface (a WebSocket on port 8080), so you can drive it from any
 device on the same Wi-Fi without the official mobile app.
 
-**Live (source/showcase):** https://andon.ericbetts.dev
-
-> ⚠️ **Important:** the hosted HTTPS site can’t actually control a radio.
+> ⚠️ **Run this over `http` on your own network — do not host it over HTTPS.**
 > Browsers block HTTPS pages from opening insecure `ws://` connections (mixed
-> content), and the radio only speaks `ws://` — a LAN device can’t have a
-> public TLS cert. **To control your radio, run this app over `http` on your
-> own network** (see [Usage](#usage)). The hosted site is just the source and
-> a look at the design.
+> content), and the radio only speaks `ws://` (a LAN device can’t have a public
+> TLS cert). So a public HTTPS deployment can’t actually reach your radio; this
+> is meant to be served locally. See [Usage](#usage).
 
 ## Features
 
