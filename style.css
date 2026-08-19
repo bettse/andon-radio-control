@@ -226,6 +226,25 @@ button#connect-btn {
 button#connect-btn:hover { background: var(--orange-bright); }
 button#connect-btn:active { transform: translateY(1px); }
 
+.https-notice {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border-radius: var(--r-ctrl);
+  background: rgba(228, 99, 43, 0.1);
+  border: 1px solid rgba(228, 99, 43, 0.4);
+  color: var(--ink);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+.https-notice code {
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  background: rgba(84, 56, 33, 0.1);
+  padding: 1px 5px;
+  border-radius: 3px;
+  word-break: break-word;
+}
+
 .status-line { margin-top: 12px; font-size: 0.8125rem; color: var(--ink-soft); }
 .status-line.ok { color: var(--ok); }
 .status-line.err { color: var(--err); }

@@ -148,7 +148,19 @@ function connect(host) {
   try {
     socket = new WebSocket(`ws://${host}:${WS_PORT}${WS_PATH}`);
   } catch (e) {
-    setStatus('Invalid address: ' + e.message, 'err');
+    // On an https:// origin the browser blocks insecure ws:// (mixed content)
+    // and throws a SecurityError. The radio only speaks ws://, so the fix is
+    // to load this app over http on your LAN, not to change the address.
+    if (location.protocol === 'https:') {
+      setStatus(
+        'This page is loaded over HTTPS, which browsers won’t let connect to a ' +
+        'ws:// device on your network. Run the app over http on your LAN instead ' +
+        '(see the note above).',
+        'err'
+      );
+    } else {
+      setStatus('Invalid address: ' + e.message, 'err');
+    }
     return;
   }
   ws = socket;
@@ -618,6 +630,14 @@ disconnectBtn.addEventListener('click', () => {
 });
 
 // ---------- Boot ----------
+
+// Warn if served over https — ws:// to a LAN device will be blocked as mixed
+// content. localhost is exempt (treated as a secure context by browsers).
+const httpsNotice = document.getElementById('https-notice');
+const onLocalhost = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
+if (location.protocol === 'https:' && !onLocalhost) {
+  httpsNotice.classList.remove('hidden');
+}
 
 const savedHost = localStorage.getItem(STORAGE_KEY);
 if (savedHost) {

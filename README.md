@@ -5,7 +5,14 @@ a hand-built internet radio. It talks directly to the radio's local-network
 control interface (a WebSocket on port 8080), so you can drive it from any
 device on the same Wi-Fi without the official mobile app.
 
-**Live:** https://andon.ericbetts.dev
+**Live (source/showcase):** https://andon.ericbetts.dev
+
+> ⚠️ **Important:** the hosted HTTPS site can’t actually control a radio.
+> Browsers block HTTPS pages from opening insecure `ws://` connections (mixed
+> content), and the radio only speaks `ws://` — a LAN device can’t have a
+> public TLS cert. **To control your radio, run this app over `http` on your
+> own network** (see [Usage](#usage)). The hosted site is just the source and
+> a look at the design.
 
 ## Features
 
@@ -22,7 +29,17 @@ device on the same Wi-Fi without the official mobile app.
 The page is a static site — no build step, no backend. It runs entirely in
 your browser and connects straight to the radio over your local network.
 
-1. Open the site while on the same Wi-Fi as your radio.
+Because of the mixed-content rule above, you must serve it over **http** on
+your LAN (not open the hosted HTTPS site). From this folder:
+
+```sh
+python3 -m http.server 9000
+```
+
+Then, on any device on the same Wi-Fi, open
+`http://<the-serving-computer's-ip>:9000`.
+
+1. Open the app (over http) while on the same Wi-Fi as your radio.
 2. Enter the radio's local IP address (e.g. `10.0.1.138`) and connect.
 
 Because browsers can't discover devices via mDNS, you supply the IP yourself.

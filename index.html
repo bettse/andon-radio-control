@@ -23,6 +23,14 @@
 
   <section id="connect-panel" class="panel connect-panel">
     <div class="panel-label">Tune In</div>
+    <div id="https-notice" class="https-notice hidden">
+      <strong>Heads up:</strong> you’re viewing this over HTTPS, and browsers block
+      HTTPS pages from reaching a <code>ws://</code> device on your network. Your
+      radio can’t serve HTTPS, so to actually control it, run this app over
+      <strong>http</strong> on your LAN — e.g. from the folder:
+      <code>python3 -m http.server 9000</code>, then open
+      <code>http://&lt;your-computer-ip&gt;:9000</code>.
+    </div>
     <form id="connect-form" autocomplete="off">
       <label for="ip-input">Device address</label>
       <div class="connect-row">
