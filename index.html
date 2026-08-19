@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andon Radio Control</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="static-overlay"></div>
+
+<main class="console">
+
+  <header class="hero">
+    <img class="hero-img" src="assets/radio-hero.webp" alt="Andon Radio">
+    <div class="hero-caption">
+      <h1>Andon Radio Control</h1>
+      <p class="tagline">local network receiver &middot; unofficial client</p>
+    </div>
+  </header>
+
+  <section id="connect-panel" class="panel connect-panel">
+    <div class="panel-label">Tune In</div>
+    <form id="connect-form" autocomplete="off">
+      <label for="ip-input">Device address</label>
+      <div class="connect-row">
+        <input id="ip-input" type="text" placeholder="e.g. 10.0.1.138 or radio-865a.local" spellcheck="false">
+        <button type="submit" id="connect-btn">Connect</button>
+      </div>
+      <div id="connect-status" class="status-line">Not connected</div>
+    </form>
+  </section>
+
+  <section id="device-panel" class="device-grid hidden">
+
+    <div class="panel player-panel">
+      <div class="panel-label">Now Playing</div>
+
+      <div class="now-playing">
+        <div class="lamp" id="power-lamp"></div>
+        <div class="np-text">
+          <div id="np-name" class="np-name">&mdash;</div>
+          <div id="np-sub" class="np-sub">&nbsp;</div>
+        </div>
+        <div id="device-id" class="device-id"></div>
+      </div>
+
+      <div class="controls-row">
+        <div class="ctrl-wrap">
+          <button id="prev-btn" class="dial-btn dial-btn-sm" title="Previous station">
+            <svg viewBox="0 0 24 24"><rect x="4" y="4" width="2.4" height="16"></rect><polygon points="19,4 8,12 19,20"></polygon></svg>
+          </button>
+          <div class="ctrl-label">Prev</div>
+        </div>
+
+        <div class="ctrl-wrap">
+          <button id="play-btn" class="dial-btn" title="Play / Pause">
+            <svg id="play-icon" viewBox="0 0 24 24"><polygon points="6,4 20,12 6,20"></polygon></svg>
+            <svg id="pause-icon" viewBox="0 0 24 24" style="display:none"><rect x="5" y="4" width="5" height="16"></rect><rect x="14" y="4" width="5" height="16"></rect></svg>
+          </button>
+          <div class="ctrl-label" id="play-label">Play</div>
+        </div>
+
+        <div class="ctrl-wrap">
+          <button id="next-btn" class="dial-btn dial-btn-sm" title="Next station">
+            <svg viewBox="0 0 24 24"><rect x="17.6" y="4" width="2.4" height="16"></rect><polygon points="5,4 16,12 5,20"></polygon></svg>
+          </button>
+          <div class="ctrl-label">Next</div>
+        </div>
+
+        <div class="knob-wrap">
+          <div id="volume-knob" class="knob" tabindex="0" role="slider" aria-label="Volume" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="knob-ticks"></div>
+            <div class="knob-face"><div class="knob-indicator"></div></div>
+          </div>
+          <div class="knob-presets">
+            <button type="button" class="preset" data-vol="0">0</button>
+            <button type="button" class="preset" data-vol="25">25</button>
+            <button type="button" class="preset" data-vol="50">50</button>
+            <button type="button" class="preset" data-vol="75">75</button>
+            <button type="button" class="preset" data-vol="100">100</button>
+          </div>
+          <div class="knob-label">Volume <span id="volume-value">--</span></div>
+        </div>
+
+        <div class="ctrl-wrap">
+          <button id="mute-btn" class="dial-btn" title="Mute / Unmute">
+            <svg id="unmuted-icon" viewBox="0 0 24 24"><path d="M4 9v6h4l5 5V4L8 9H4z"></path><path d="M16 8a5 5 0 0 1 0 8" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg>
+            <svg id="muted-icon" viewBox="0 0 24 24" style="display:none"><path d="M4 9v6h4l5 5V4L8 9H4z"></path><line x1="15" y1="9" x2="21" y2="15" stroke="currentColor" stroke-width="1.8"></line><line x1="21" y1="9" x2="15" y2="15" stroke="currentColor" stroke-width="1.8"></line></svg>
+          </button>
+          <div class="ctrl-label" id="mute-label">Mute</div>
+        </div>
+      </div>
+
+      <button id="disconnect-btn" class="link-btn">Disconnect / change device</button>
+    </div>
+
+    <div class="panel stations-panel">
+      <div class="stations-header">
+        <div class="panel-label">Stations</div>
+        <div class="stations-actions">
+          <button type="button" id="add-station-btn" class="chip-btn">+ Add</button>
+          <button type="button" id="reset-stations-btn" class="chip-btn">Reset to default</button>
+        </div>
+      </div>
+      <ul id="station-list" class="station-list"></ul>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- Add-station modal -->
+<div id="modal-backdrop" class="modal-backdrop hidden">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-head">
+      <h2 id="modal-title">Add a station</h2>
+      <button type="button" id="modal-close" class="modal-close" aria-label="Close">&times;</button>
+    </div>
+    <p class="modal-sub">Popular public streams. Already-added ones are marked.</p>
+    <ul id="popular-list" class="popular-list"></ul>
+  </div>
+</div>
+
+<!-- Confirmation modal (remove / reset) -->
+<div id="confirm-backdrop" class="modal-backdrop hidden">
+  <div class="modal modal-sm" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+    <div class="modal-head">
+      <h2 id="confirm-title">Are you sure?</h2>
+    </div>
+    <p id="confirm-message" class="modal-sub"></p>
+    <div class="confirm-actions">
+      <button type="button" id="confirm-cancel" class="chip-btn">Cancel</button>
+      <button type="button" id="confirm-ok" class="chip-btn chip-btn-danger">Remove</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
